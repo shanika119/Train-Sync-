@@ -1,0 +1,363 @@
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: #f9f6f6;
+  color: #333;
+  line-height: 1.6;
+}
+
+.container {
+  margin: auto;
+  max-width: 100%;
+  max-height: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  z-index: 1;
+}
+
+.container1 {
+  margin: auto;
+  max-width: 50%;
+  margin: 0 auto;
+  padding: 20px;
+  z-index: 1;
+}
+
+/* Header Styles */
+header {
+  background: linear-gradient(135deg, #000000, #000000);
+  color: rgb(6, 235, 71);
+  padding: 20px 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  /* Add overflow hidden to prevent content from spilling during animation */
+  overflow: hidden; 
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+/* Keyframes for fade-in from left */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Keyframes for fade-in from right */
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.logo img {
+  height: 60px;
+  margin-right: 15px;
+  /* Apply animation to logo image */
+  animation: slideInLeft 0.8s ease-out forwards;
+}
+
+.logo h1 {
+  font-size: 24px;
+  font-weight: 700;
+  /* Apply animation to logo text */
+  animation: slideInLeft 0.8s ease-out forwards 0.2s; /* Add a slight delay */
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+}
+
+nav ul li {
+  margin-left: 20px;
+}
+
+nav ul li a {
+  color: rgb(6, 235, 71);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+nav ul li a:hover {
+  color: #bbdefb;
+}
+
+/* New style for the Admin Login button */
+nav ul li a[href="admin.html"] {
+  background-color: red; /* Default red background */
+  color: white; /* White text for contrast */
+  padding: 8px 15px; /* Add padding to make it look like a button */
+  border-radius: 5px; /* Slightly rounded corners */
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out; /* Smooth transition for hover effect */
+}
+
+nav ul li a[href="admin.html"]:hover {
+  background-color: green; /* Turn green on hover */
+  color: white; /* Keep text white on hover */
+}
+
+
+/* Hero Section */
+.hero {
+  /* Removed background image as video will be used */
+  height: 400px;
+  position: relative; /* Ensure a stacking context */
+  color: white;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden; /* Ensure video stays within bounds */
+}
+
+/* Style for the video background */
+#heroVideo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: 1; /* Place video behind the overlay and content */
+  transform: translate(-50%, -50%);
+  object-fit: cover; /* Ensures the video covers the entire area */
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(7, 80, 226, 0.4); /* Made more transparent (alpha changed from 0.726 to 0.4) */
+  z-index: 2; /* Place overlay above the video, below content */
+}
+
+.hero-content {
+  position: relative; /* Keep relative or absolute to accept z-index */
+  z-index: 10; /* Ensure content is on top of both video and overlay */
+  max-width: 1000px;
+  padding: 20px;
+  
+}
+
+.hero h2 {
+  font-size: 42px;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.hero p {
+  font-size: 18px;
+  margin-bottom: 30px;
+}
+
+/* Main buttons */
+.main-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin: 50px 0;
+}
+
+.main-button {
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  padding: 20px 30px;
+  width: 250px;
+  height: 250px;
+  border-radius: 15px;
+  font-size: 24px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+  font-family: Race Sport;
+  transition: background-color 0.3s ease-in-out, transform 1s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.main-button:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.main-button:first-child {
+  background-color: #0077B6;
+}
+
+.main-button:last-child {
+  background-color: #FF4D00;
+}
+
+.button-icon {
+  font-size: 64px;
+  margin-bottom: 15px;
+}
+
+/* Features Section */
+.features {
+  margin: 60px 0;
+  max-width: 100%;
+  max-height: 100%;
+  background-color: #99e8075c;
+}
+
+.features h2 {
+  text-align: center;
+  font-size: 32px;
+  margin-bottom: 40px;
+  color: #0d47a1;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.feature-card {
+  background-color: rgba(106, 232, 106, 0.53);
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s;
+
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+}
+
+.feature-icon {
+  font-size: 40px;
+  color: #1976d2;
+  margin-bottom: 15px;
+}
+
+.feature-card h3 {
+  font-size: 22px;
+  margin-bottom: 15px;
+  color: #0d47a1;
+}
+
+/* Footer */
+footer {
+  background-color: #0d47a1;
+  color: white;
+  padding: 30px 0;
+  margin-top: 60px;
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 40px;
+}
+
+.footer-column h3 {
+  font-size: 18px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.footer-column h3::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 40px;
+  height: 3px;
+  background-color: #bbdefb;
+}
+
+.footer-column ul {
+  list-style: none;
+}
+
+.footer-column ul li {
+  margin-bottom: 10px;
+}
+
+.footer-column ul li a {
+  color: #bbdefb;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-column ul li a:hover {
+  color: white;
+}
+
+.copyright {
+  text-align: center;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.about{
+  background-color: #a9a7a7;
+}
+
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .header-content {
+      flex-direction: column;
+  }
+  
+  .logo {
+      margin-bottom: 15px;
+  }
+  
+  nav ul {
+      margin-top: 10px;
+  }
+  
+  .main-buttons {
+      flex-direction: column;
+      align-items: center;
+  }
+  
+  .hero h2 {
+      font-size: 32px;
+  }
+  
+  .hero p {
+      font-size: 16px;
+  }
+}

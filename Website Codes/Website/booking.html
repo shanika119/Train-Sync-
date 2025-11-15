@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Book a Seat</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/alpinejs" defer></script>
+  <style>
+    [x-cloak] { display: none; }
+  </style>
+</head>
+<body class="min-h-screen bg-white flex flex-col" x-data="bookingApp()">
+
+  <div class="w-full bg-gradient-to-r from-indigo-500 to-blue-500 py-10">
+    <div
+         class="max-w-4xl mx-auto px-4 text-white transition-all duration-500 ease-in-out"
+         :data-step="step"
+    >
+      <div class="flex items-center justify-between">
+        <div class="flex-1 text-center flex flex-col items-center">
+          <div :class="step === 1 ? 'bg-white text-indigo-600 ring-2 ring-white' : 'bg-indigo-300 text-white'"
+               class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg transition-all duration-300 ease-in-out shadow-md">1</div>
+          <p class="mt-2 text-sm font-semibold transition-all duration-300 ease-in-out"
+             :class="step === 1 ? 'text-white' : 'text-indigo-200'">Enter Email</p>
+        </div>
+
+        <div class="flex-1 border-t-2 mx-2 transition-all duration-300 ease-in-out"
+             :class="step > 1 ? 'border-white' : 'border-indigo-300'"></div>
+
+        <div class="flex-1 text-center flex flex-col items-center">
+          <div :class="step === 2 ? 'bg-white text-indigo-600 ring-2 ring-white' : 'bg-indigo-300 text-white'"
+               class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg transition-all duration-300 ease-in-out shadow-md">2</div>
+          <p class="mt-2 text-sm font-semibold transition-all duration-300 ease-in-out"
+             :class="step === 2 ? 'text-white' : 'text-indigo-200'">Choose Date</p>
+        </div>
+
+        <div class="flex-1 border-t-2 mx-2 transition-all duration-300 ease-in-out"
+             :class="step > 2 ? 'border-white' : 'border-indigo-300'"></div>
+
+        <div class="flex-1 text-center flex flex-col items-center">
+          <div :class="step === 3 ? 'bg-white text-indigo-600 ring-2 ring-white' : 'bg-indigo-300 text-white'"
+               class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg transition-all duration-300 ease-in-out shadow-md">3</div>
+          <p class="mt-2 text-sm font-semibold transition-all duration-300 ease-in-out"
+             :class="step === 3 ? 'text-white' : 'text-indigo-200'">Select Destination</p>
+        </div>
+
+        <div class="flex-1 border-t-2 mx-2 transition-all duration-300 ease-in-out"
+             :class="step > 3 ? 'border-white' : 'border-indigo-300'"></div>
+
+        <div class="flex-1 text-center flex flex-col items-center">
+          <div :class="step === 4 ? 'bg-white text-indigo-600 ring-2 ring-white' : 'bg-indigo-300 text-white'"
+               class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg transition-all duration-300 ease-in-out shadow-md">4</div>
+          <p class="mt-2 text-sm font-semibold transition-all duration-300 ease-in-out"
+             :class="step === 4 ? 'text-white' : 'text-indigo-200'">Choose Train</p>
+        </div>
+
+        <div class="flex-1 border-t-2 mx-2 transition-all duration-300 ease-in-out"
+             :class="step > 4 ? 'border-white' : 'border-indigo-300'"></div>
+
+        <div class="flex-1 text-center flex flex-col items-center">
+          <div :class="step === 5 ? 'bg-white text-indigo-600 ring-2 ring-white' : 'bg-indigo-300 text-white'"
+               class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg transition-all duration-300 ease-in-out shadow-md">5</div>
+          <p class="mt-2 text-sm font-semibold transition-all duration-300 ease-in-out"
+             :class="step === 5 ? 'text-white' : 'text-indigo-200'">Book Seats</p>
+        </div>
+
+        <div class="flex-1 border-t-2 mx-2 transition-all duration-300 ease-in-out"
+             :class="step > 5 ? 'border-white' : 'border-indigo-300'"></div>
+
+        <div class="flex-1 text-center flex flex-col items-center">
+          <div :class="step === 6 ? 'bg-white text-indigo-600 ring-2 ring-white' : 'bg-indigo-300 text-white'"
+               class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg transition-all duration-300 ease-in-out shadow-md">6</div>
+          <p class="mt-2 text-sm font-semibold transition-all duration-300 ease-in-out"
+             :class="step === 6 ? 'text-white' : 'text-indigo-200'">Payment</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Updated container div to center content properly -->
+  <div class="flex-grow flex items-center justify-center bg-white py-10" :class="step === 7 ? 'items-center' : 'items-start pt-20'">
+    <div class="w-full max-w-md bg-white p-8 rounded-2xl shadow-xl relative">
+
+      <template x-if="step === 1">
+        <div
+          x-transition:enter="transition ease-out duration-300"
+          x-transition:enter-start="opacity-0 translate-x-5"
+          x-transition:enter-end="opacity-100 translate-x-0"
+          x-transition:leave="transition ease-in duration-200"
+          x-transition:leave-start="opacity-100 translate-x-0"
+          x-transition:leave-end="opacity-0 -translate-x-5"
+        >
+          <h2 class="text-xl font-bold text-center mb-6 text-indigo-800">Step 01: Enter Your Email</h2>
+          <p class="text-sm text-gray-600 mb-4 text-center">Please enter a valid email address, as your e-ticket will be sent here.</p>
+          <label class="block text-gray-700 text-sm font-semibold mb-2">Email Address</label>
+          <input
+            type="email"
+            x-model="email"
+            required
+            class="w-full p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+          />
+          <label class="block text-gray-700 text-sm font-semibold mb-2 mt-4">Verify Email Address</label>
+          <input
+            type="email"
+            x-model="verifyEmail"
+            required
+            class="w-full p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+          />
+          <template x-if="email && verifyEmail && email !== verifyEmail">
+            <p class="text-red-600 text-sm mt-2">Emails do not match.</p>
+          </template>
+          <button
+            @click="if(email && verifyEmail && email === verifyEmail) nextStep()"
+            :disabled="!email || !verifyEmail || email !== verifyEmail"
+            class="mt-6 w-full bg-indigo-600 text-white py-3 rounded-xl font-semibold hover:bg-indigo-700 transition-all duration-300 transform hover:scale-105"
+            :class="[!email || !verifyEmail || email !== verifyEmail ? 'opacity-50 cursor-not-allowed' : '']"
+          >
+            Next
+          </button>
+        </div>
+      </template>
+
+      <template x-if="step === 2">
+        <div
+          x-transition:enter="transition ease-out duration-300"
+          x-transition:enter-start="opacity-0 translate-x-5"
+          x-transition:enter-end="opacity-100 translate-x-0"
+          x-transition:leave="transition ease-in duration-200"
+          x-transition:leave-start="opacity-100 translate-x-0"
+          x-transition:leave-end="opacity-0 -translate-x-5"
+        >
+          <h2 class="text-xl font-bold text-center mb-6 text-indigo-800">Step 02: Choose a Date</h2>
+          <p class="mb-4 text-gray-700 text-center">Select a date within the next 7 days</p>
+          <div class="flex justify-between mb-6">
+            <template x-for="(dateObj, index) in next7Days" :key="index">
+              <button
+                @click="selectedDate = dateObj.iso"
+                :class="selectedDate === dateObj.iso ? 'bg-indigo-600 text-white' : 'bg-indigo-100 text-indigo-700 hover:bg-indigo-300'"
+                class="flex flex-col items-center justify-center rounded-lg px-4 py-3 w-12 transition-colors duration-300 focus:outline-none"
+                type="button"
+              >
+                <span x-text="dateObj.day"></span>
+                <span x-text="dateObj.date"></span>
+              </button>
+            </template>
+          </div>
+          <div class="flex justify-between">
+            <button
+              @click="prevStep()"
+              class="px-6 py-3 rounded-xl border border-indigo-600 text-indigo-600 font-semibold hover:bg-indigo-600 hover:text-white transition-colors duration-300"
+            >
+              Previous
+            </button>
+            <button
+              @click="selectedDate ? nextStep() : null"
+              :disabled="!selectedDate"
+              :class="selectedDate ? 'bg-indigo-600 hover:bg-indigo-700 text-white' : 'bg-indigo-300 cursor-not-allowed text-gray-500'"
+              class="px-6 py-3 rounded-xl font-semibold transition-colors duration-300"
+            >
+              Next
+            </button>
+          </div>
+        </div>
+      </template>
+
+      <template x-if="step === 3">
+        <div
+          x-transition:enter="transition ease-out duration-300"
+          x-transition:enter-start="opacity-0 translate-x-5"
+          x-transition:enter-end="opacity-100 translate-x-0"
+          x-transition:leave="transition ease-in duration-200"
+          x-transition:leave-start="opacity-100 translate-x-0"
+          x-transition:leave-end="opacity-0 -translate-x-5"
+        >
+          <h2 class="text-xl font-bold text-center mb-6 text-indigo-800">Step 03: Select Your Destination</h2>
+
+          <label class="block mb-2 font-semibold text-gray-700">From:</label>
+          <select x-model="fromStation" class="w-full mb-4 p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+            <option value="">Select Departure</option>
+            <template x-for="loc in locations" :key="loc"><option x-text="loc" :value="loc"></option></template>
+          </select>
+
+          <label class="block mb-2 font-semibold text-gray-700">To:</label>
+          <select x-model="toStation" class="w-full mb-6 p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+            <option value="">Select Destination</option>
+            <template x-for="loc in locations" :key="loc"><option x-text="loc" :value="loc"></option></template>
+          </select>
+
+          <template x-if="error">
+            <p class="text-red-600 mb-3" x-text="error"></p>
+          </template>
+
+          <div class="flex justify-between">
+            <button
+              @click="prevStep()"
+              class="px-6 py-3 rounded-xl border border-indigo-600 text-indigo-600 font-semibold hover:bg-indigo-600 hover:text-white transition-colors duration-300"
+            >
+              Previous
+            </button>
+            <button
+              @click="validateDestinations()"
+              class="px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold transition-colors duration-300"
+            >
+              Next
+            </button>
+          </div>
+        </div>
+      </template>
+
+      <template x-if="step === 4">
+        <div
+          x-transition:enter="transition ease-out duration-300"
+          x-transition:enter-start="opacity-0 translate-x-5"
+          x-transition:enter-end="opacity-100 translate-x-0"
+          x-transition:leave="transition ease-in duration-200"
+          x-transition:leave-start="opacity-100 translate-x-0"
+          x-transition:leave-end="opacity-0 -translate-x-5"
+        >
+          <h2 class="text-xl font-bold text-center mb-6 text-indigo-800">Step 04: Choose Your Train</h2>
+
+          <div x-cloak x-show="loadingTrains" class="text-center text-gray-500 mb-4">Loading trains...</div>
+          <div x-cloak x-show="!loadingTrains && fetchTrainsError" class="text-red-600 text-center mb-4" x-text="fetchTrainsError"></div>
+          <div x-cloak x-show="!loadingTrains && !fetchTrainsError && trainsForSelectedRoute.length === 0" class="text-center text-gray-500 mb-4">No trains found for this route.</div>
+
+          <div class="flex flex-col space-y-4" x-show="!loadingTrains && !fetchTrainsError && trainsForSelectedRoute.length > 0">
+            <template x-for="(train, idx) in trainsForSelectedRoute" :key="idx">
+              <button
+                @click="selectedTrain = train"
+                :class="selectedTrain === train ? 'bg-indigo-600 text-white' : 'bg-indigo-100 text-blue-700 hover:bg-indigo-300'"
+                class="flex justify-between items-center rounded-xl px-5 py-3 w-full transition-colors duration-300 focus:outline-none"
+                type="button"
+              >
+                <div class="flex flex-col text-left">
+                  <span class="font-bold text-lg" x-text="train.name"></span>
+                  <span x-text="train.time" :class="selectedTrain === train ? 'text-green-300' : 'text-blue-700'"></span>
+                </div>
+                <span class="text-green-600 font-semibold text-lg"></span>
+              </button>
+            </template>
+          </div>
+
+          <template x-if="error">
+            <p class="text-red-600 mt-3" x-text="error"></p>
+          </template>
+
+          <div class="flex justify-between mt-6">
+            <button
+              @click="prevStep()"
+              class="px-6 py-3 rounded-xl border border-indigo-600 text-indigo-600 font-semibold hover:bg-indigo-600 hover:text-white transition-colors duration-300"
+            >
+              Previous
+            </button>
+            <button
+              @click="selectedTrain ? nextStep() : null"
+              :disabled="!selectedTrain"
+              :class="selectedTrain ? 'bg-indigo-600 hover:bg-indigo-700 text-white' : 'bg-indigo-300 cursor-not-allowed text-gray-500'"
+              class="px-6 py-3 rounded-xl font-semibold transition-colors duration-300"
+            >
+              Next
+            </button>
+          </div>
+        </div>
+      </template>
+
+      <template x-if="step === 5">
+        <div
+          x-transition:enter="transition ease-out duration-300"
+          x-transition:enter-start="opacity-0 translate-x-5"
+          x-transition:enter-end="opacity-100 translate-x-0"
+          x-transition:leave="transition ease-in duration-200"
+          x-transition:leave-start="opacity-100 translate-x-0"
+          x-transition:leave-end="opacity-0 -translate-x-5"
+        >
+          <h2 class="text-xl font-bold text-center mb-6 text-indigo-800">Step 05: Book Your Seats</h2>
+
+          <div class="mb-4">
+            <label class="font-semibold text-gray-700">Select Class:</label>
+            <div class="mt-2 flex space-x-4">
+              <button
+                type="button"
+                @click="selectedClass = '1st'; resetSeats()"
+                :class="selectedClass === '1st' ? 'bg-indigo-600 text-white' : 'bg-indigo-100 text-indigo-700 hover:bg-indigo-300'"
+                class="px-6 py-2 rounded-lg font-semibold transition-colors duration-300"
+              >
+                1st Class (Rs. <span x-text="selectedTrain ? selectedTrain.price_1st_class : 'N/A'"></span>/seat)
+              </button>
+              <button
+                type="button"
+                @click="selectedClass = '2nd'; resetSeats()"
+                :class="selectedClass === '2nd' ? 'bg-indigo-600 text-white' : 'bg-indigo-100 text-indigo-700 hover:bg-indigo-300'"
+                class="px-6 py-2 rounded-lg font-semibold transition-colors duration-300"
+              >
+                2nd Class (Rs. <span x-text="selectedTrain ? selectedTrain.price_2nd_class : 'N/A'"></span>/seat)
+              </button>
+            </div>
+          </div>
+
+          <template x-if="selectedClass">
+            <div>
+              <label class="font-semibold text-gray-700 mb-2 block">Select Number of Seats:</label>
+              <div class="grid grid-cols-10 gap-3 max-w-md mx-auto mb-4">
+                <template x-for="seat in seatCount()" :key="seat">
+                  <button
+                    type="button"
+                    @click="toggleSeat(seat)"
+                    :class="{
+                      'bg-green-500 text-white': !currentTrainBookedSeats.includes(seat) && selectedSeats.includes(seat),
+                      'bg-red-600 text-white cursor-not-allowed': currentTrainBookedSeats.includes(seat),
+                      'bg-green-300 hover:bg-green-500': !currentTrainBookedSeats.includes(seat) && !selectedSeats.includes(seat),
+                    }"
+                    class="rounded-md py-2 text-sm font-semibold transition-colors duration-300 focus:outline-none"
+                    :disabled="currentTrainBookedSeats.includes(seat)"
+                  >
+                    <span x-text="seat"></span>
+                  </button>
+                </template>
+              </div>
+
+              <p class="text-center text-lg font-semibold mb-4">
+                Total Cost: <span class="text-indigo-600" x-text="'Rs. ' + totalCost().toFixed(2)"></span>
+              </p>
+            </div>
+          </template>
+
+          <div class="flex justify-between">
+            <button
+              @click="prevStep()"
+              class="px-6 py-3 rounded-xl border border-indigo-600 text-indigo-600 font-semibold hover:bg-indigo-600 hover:text-white transition-colors duration-300"
+            >
+              Previous
+            </button>
+
+            <button
+              @click="bookSeats()"
+              :disabled="selectedSeats.length === 0"
+              :class="selectedSeats.length > 0 ? 'bg-indigo-600 hover:bg-indigo-700 text-white' : 'bg-indigo-300 cursor-not-allowed text-gray-500'"
+              class="px-6 py-3 rounded-xl font-semibold transition-colors duration-300"
+            >
+              Next
+            </button>
+          </div>
+        </div>
+      </template>
+
+      <template x-if="step === 6">
+        <div
+          x-transition:enter="transition ease-out duration-300"
+          x-transition:enter-start="opacity-0 translate-x-5"
+          x-transition:enter-end="opacity-100 translate-x-0"
+          x-transition:leave="transition ease-in duration-200"
+          x-transition:leave-start="opacity-100 translate-x-0"
+          x-transition:leave-end="opacity-0 -translate-x-5"
+        >
+          <h2 class="text-xl font-bold text-center mb-6 text-indigo-800">Step 06: Payment Details</h2>
+
+          <div class="bg-gray-100 p-4 rounded-lg mb-6">
+            <h3 class="text-lg font-bold text-indigo-700 mb-3">Booking Summary</h3>
+            <p class="mb-2">Booked Date: <span class="font-semibold" x-text="selectedDate"></span></p>
+            <p class="mb-2">Train: <span class="font-semibold" x-text="selectedTrain.name"></span></p>
+            <p class="mb-2">Time: <span class="font-semibold" x-text="selectedTrain.time"></span></p>
+            <p class="mb-2">Class: <span class="font-semibold" x-text="selectedClass === '1st' ? '1st Class' : '2nd Class'"></span></p>
+            <p class="mb-2">Selected Seats: <span class="font-semibold" x-text="lastBookedSeatsForDisplay.join(', ')"></span></p>
+            <p class="mb-2">Total Cost: <span class="font-semibold text-indigo-600" x-text="'Rs. ' + totalCost().toFixed(2)"></span></p>
+          </div>
+
+          <div class="mb-6">
+            <h3 class="text-lg font-bold text-indigo-700 mb-3">Payment Details</h3>
+            <div class="mb-4">
+              <label class="block text-gray-700 text-sm font-semibold mb-2">Card Number</label>
+              <input type="text" placeholder="**** **** **** ****" class="w-full p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+            </div>
+            <div class="grid grid-cols-2 gap-4 mb-4">
+              <div>
+                <label class="block text-gray-700 text-sm font-semibold mb-2">Expiry Date</label>
+                <input type="text" placeholder="MM/YY" class="w-full p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+              </div>
+              <div>
+                <label class="block text-gray-700 text-sm font-semibold mb-2">CVV</label>
+                <input type="text" placeholder="***" class="w-full p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+              </div>
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700 text-sm font-semibold mb-2">Card Holder Name</label>
+              <input type="text" placeholder="John Doe" class="w-full p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+            </div>
+          </div>
+
+          <div class="flex justify-between">
+            <button
+              @click="prevStep()"
+              class="px-6 py-3 rounded-xl border border-indigo-600 text-indigo-600 font-semibold hover:bg-indigo-600 hover:text-white transition-colors duration-300"
+            >
+              Previous
+            </button>
+            <button
+              @click="confirmBooking()"
+              class="px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold transition-colors duration-300"
+            >
+              Submit Payment
+            </button>
+          </div>
+        </div>
+      </template>
+
+      <template x-if="step === 7">
+        <div
+          x-transition:enter="transition ease-out duration-300"
+          x-transition:enter-start="opacity-0 translate-x-5"
+          x-transition:enter-end="opacity-100 translate-x-0"
+          x-transition:leave="transition ease-in duration-200"
+          x-transition:leave-start="opacity-100 translate-x-0"
+          x-transition:leave-end="opacity-0 -translate-x-5"
+          class="text-center"
+        >
+          <h2 class="text-2xl font-bold mb-6 text-indigo-800">Booking Confirmed!</h2>
+          
+          <div class="mb-6 space-y-2">
+            <p>Email: <span class="font-semibold" x-text="email"></span></p>
+            <p>Date: <span class="font-semibold" x-text="selectedDate"></span></p>
+            <p>From: <span class="font-semibold" x-text="fromStation"></span> → To: <span class="font-semibold" x-text="toStation"></span></p>
+            <p>Train: <span class="font-semibold" x-text="selectedTrain.name"></span></p>
+            <p>Class: <span class="font-semibold" x-text="selectedClass === '1st' ? '1st Class' : '2nd Class'"></span></p>
+            <p>Seats Booked: <span class="font-semibold" x-text="lastBookedSeatsForDisplay.join(', ')"></span></p>
+            <p>Total Paid: <span class="font-semibold text-indigo-700 text-xl" x-text="'Rs. ' + lastTotalCost.toFixed(2)"></span></p>
+          </div>
+
+          <div id="qrcode" class="flex justify-center mb-6"></div>
+          
+          <div class="flex flex-col items-center space-y-4">
+            <button
+              @click="downloadQrCode()"
+              class="bg-blue-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-blue-700 transition-colors duration-300"
+            >
+              Download QR Code
+            </button>
+            <button
+              @click="resetAll()"
+              class="bg-indigo-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-indigo-700 transition-colors duration-300"
+            >
+              Book Another Seat
+            </button>
+          </div>
+        </div>
+      </template>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+<script>
+    function bookingApp() {
+      return {
+        step: 1,
+        email: '',
+        verifyEmail: '',
+        selectedDate: '',
+        next7Days: [],
+        fromStation: '',
+        toStation: '',
+        selectedTrain: null,
+        selectedClass: null,
+        selectedSeats: [],
+        allBookedSeats: {},
+        lastBookedSeatsForDisplay: [],
+        lastQrData: null,
+        lastTotalCost: 0, // Add this new property to store the total cost for display
+        error: '',
+        locations: [
+          'Colombo Fort', 'Kandy', 'Nuwara Eliya', 'Badulla', 'Jaffna', 'Anuradhapura', 'Polonnaruwa'
+        ],
+        fetchedTrainsData: {},
+        loadingTrains: true,
+        fetchTrainsError: '',
+        trainsForSelectedRoute: [],
+
+        init() {
+          for(let i = 0; i < 7; i++) {
+            const d = new Date();
+            d.setDate(d.getDate() + i);
+            this.next7Days.push({
+              day: d.toLocaleDateString('en-US', { weekday: 'short' }),
+              date: d.getDate(),
+              iso: d.toISOString().split('T')[0]
+            });
+          }
+          this.fetchTrainsData();
+        },
+
+        async fetchTrainsData() {
+            this.loadingTrains = true;
+            this.fetchTrainsError = '';
+            try {
+                const response = await fetch('http://127.0.0.1:5000/api/trains');
+                if (response.ok) {
+                    this.fetchedTrainsData = await response.json();
+                    console.log('Booking page fetched trains from backend:', this.fetchedTrainsData);
+                } else {
+                    this.fetchTrainsError = 'Failed to load train data from the server. Please try again.';
+                }
+            } catch (error) {
+                this.fetchTrainsError = 'Network error: Could not connect to the train server.';
+                console.error('Error fetching train data:', error);
+            } finally {
+                this.loadingTrains = false;
+            }
+        },
+
+        get currentTrainBookedSeats() {
+          if (!this.selectedDate || !this.selectedTrain) {
+            return [];
+          }
+          const key = this.selectedDate + '_' + this.selectedTrain.name;
+          return this.allBookedSeats[key] || [];
+        },
+
+        nextStep() {
+          if(this.step === 4) {
+            if(!this.selectedTrain) {
+              this.error = 'Please select a train';
+              return;
+            }
+            this.error = '';
+          }
+          if(this.step === 5) {
+            if(this.selectedSeats.length === 0) {
+              this.error = 'Please select at least one seat.';
+              return;
+            }
+            this.error = '';
+          }
+          if(this.step < 7) this.step++;
+          if(this.step === 4) {
+            this.assignTrainsForRoute();
+            this.selectedTrain = null;
+          }
+          if(this.step === 5) {
+            this.selectedSeats = [];
+          }
+        },
+
+        prevStep() {
+          if(this.step > 1) this.step--;
+          this.error = '';
+        },
+
+        validateDestinations() {
+          if(!this.fromStation || !this.toStation) {
+            this.error = 'Please select both stations.';
+            return;
+          }
+          if(this.fromStation === this.toStation) {
+            this.error = 'From and To stations cannot be the same.';
+            return;
+          }
+          this.error = '';
+          this.nextStep();
+        },
+
+        assignTrainsForRoute() {
+          const normalize = str => str.replace(/\s+/g, '-').replace(/\b\w/g, c => c.toUpperCase());
+          const key = normalize(this.fromStation) + '-' + normalize(this.toStation);
+          console.log('Looking for route key:', key);
+          if (this.fetchedTrainsData[key]) {
+              this.trainsForSelectedRoute = this.fetchedTrainsData[key];
+          } else {
+              this.trainsForSelectedRoute = [];
+             }
+          },
+
+        seatCount() {
+          return this.selectedClass === '1st' ? 30 : this.selectedClass === '2nd' ? 40 : 0;
+        },
+
+        resetSeats() {
+          this.selectedSeats = [];
+        },
+
+        toggleSeat(seat) {
+          if(this.currentTrainBookedSeats.includes(seat)) return;
+
+          if(this.selectedSeats.includes(seat)) {
+            this.selectedSeats = this.selectedSeats.filter(s => s !== seat);
+          } else {
+            this.selectedSeats.push(seat);
+          }
+        },
+
+        totalCost() {
+          if(!this.selectedClass || !this.selectedTrain) return 0;
+          const seatPrice = this.selectedClass === '1st' ? this.selectedTrain.price_1st_class : this.selectedTrain.price_2nd_class;
+          return this.selectedSeats.length * seatPrice;
+        },
+
+        bookSeats() {
+          this.error = '';
+          this.lastBookedSeatsForDisplay = [...this.selectedSeats];
+          this.nextStep();
+        },
+
+        async confirmBooking() {
+          const currentKey = this.selectedDate + '_' + this.selectedTrain.name;
+          if (!this.allBookedSeats[currentKey]) {
+            this.allBookedSeats[currentKey] = [];
+          }
+          this.allBookedSeats[currentKey].push(...this.selectedSeats);
+
+          // Store the total cost before clearing selectedSeats
+          const finalTotalCost = this.totalCost();
+          this.lastTotalCost = finalTotalCost; // Store for display on confirmation page
+
+          this.lastBookedSeatsForDisplay = [...this.selectedSeats];
+
+            const qrData = {
+              email: this.email,
+              date: this.selectedDate,
+              from: this.fromStation,
+              to: this.toStation,
+              train: this.selectedTrain.name,
+              time: this.selectedTrain.time,
+              class: this.selectedClass,
+              seats: this.lastBookedSeatsForDisplay.join(','),
+              cost: finalTotalCost
+            };
+
+          this.lastQrData = JSON.stringify(qrData);
+
+          this.selectedSeats = []; // Reset selectedSeats after storing total cost
+          this.error = '';
+          this.nextStep();
+
+          this.$nextTick(() => {
+            const qrcodeContainer = document.getElementById("qrcode");
+            if (qrcodeContainer) {
+              qrcodeContainer.innerHTML = '';
+              new QRCode(qrcodeContainer, {
+                text: this.lastQrData,
+                width: 192,
+                height: 192,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+              });
+            }
+          });
+
+          try {
+              const response = await fetch('http://127.0.0.1:5000/api/send-email', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({
+                      qr_data: this.lastQrData,
+                      booking_details: {
+                          email: this.email,
+                          selectedDate: this.selectedDate,
+                          fromStation: this.fromStation,
+                          toStation: this.toStation,
+                          selectedTrainName: this.selectedTrain.name,
+                          selectedTrainId: this.selectedTrain.id,
+                          selectedTrainTime: this.selectedTrain.time,
+                          selectedClass: this.selectedClass,
+                          selectedSeats: this.lastBookedSeatsForDisplay,
+                          totalCost: finalTotalCost // Use the stored total cost
+                      },
+                      recipient_email: this.email,
+                  }),
+              });
+
+              if (response.ok) {
+                  console.log('Booking details sent to backend for email successfully!');
+              } else {
+                  const errorData = await response.json();
+                  console.error('Failed to send booking details to backend:', errorData.error || response.statusText);
+              }
+          } catch (networkError) {
+              console.error('Network error while sending booking details:', networkError);
+          }
+        },
+
+        async downloadQrCode() {
+            if (!this.lastQrData) {
+                console.error('No QR code data available for download.');
+                return;
+            }
+            try {
+                const response = await fetch('http://127.0.0.1:5000/api/download-qr-code', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ qr_data: this.lastQrData }),
+                });
+
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'train_ticket_qr_code.png';
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    window.URL.revokeObjectURL(url);
+                    console.log('QR code downloaded successfully!');
+                } else {
+                    const errorData = await response.json();
+                    console.error('Failed to download QR code:', errorData.error || response.statusText);
+                }
+            } catch (networkError) {
+                console.error('Network error during QR code download:', networkError);
+            }
+        },
+
+        resetAll() {
+          this.step = 1;
+          this.email = '';
+          this.verifyEmail = '';
+          this.selectedDate = '';
+          this.fromStation = '';
+          this.toStation = '';
+          this.selectedTrain = null;
+          this.selectedClass = null;
+          this.selectedSeats = [];
+          this.lastBookedSeatsForDisplay = [];
+          this.lastQrData = null;
+          this.lastTotalCost = 0; // Reset this when starting a new booking
+          this.error = '';
+        }
+      };
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+  apiKey: "AIzaSyBAwNz_Y0S786-pWznPZYVJBJkX13i7Dqc",
+  authDomain: "train-project11.firebaseapp.com",
+  projectId: "train-project11",
+  storageBucket: "train-project11.firebasestorage.app",
+  messagingSenderId: "284937317347",
+  appId: "1:284937317347:web:7df3b7a583a6c4c2f5ced6",
+  measurementId: "G-HJ3GC90ST4"

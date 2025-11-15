@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Train Tracking System - ECODUINO</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/alpinejs" defer></script>
+    
+    <style>
+        [x-cloak] { display: none; }
+        #map { height: 70vh; border-radius: 20px; box-shadow: 0 25px 50px rgba(0,0,0,0.15); }
+        
+        .status-active {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+        
+        .status-inactive {
+            background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+        }
+        
+        .tracking-page {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+        }
+        
+        .tracking-page::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+        }
+
+        .train-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .train-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+
+        .train-card.selected {
+            border: 4px solid #10b981;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%);
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen" x-data="trackingApp()">
+    
+    <div class="tracking-page relative">
+        
+        <div class="relative z-10">
+            <div class="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg border-b border-white border-opacity-20">
+                <div class="w-full px-6 py-6">
+                    <div class="flex items-center justify-between text-white">
+                        <div class="flex items-center space-x-4">
+                            <div>
+                                <h1 class="text-3xl font-bold">
+                                    <span x-show="!selectedTrain">Select a Train to Track</span>
+                                    <span x-show="selectedTrain">Tracking: <span x-text="selectedTrain?.name"></span></span>
+                                </h1>
+                                <p class="text-lg opacity-90">Live GPS Location Monitoring</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-lg opacity-75">Status</div>
+                            <div class="flex items-center space-x-3">
+                                <div :class="selectedTrain ? 'bg-green-400' : 'bg-gray-400'" class="w-4 h-4 rounded-full"></div>
+                                <span class="font-bold text-xl" x-text="selectedTrain ? 'TRACKING ACTIVE' : 'NO TRAIN SELECTED'"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full px-6 py-6">
+                
+                <!-- Train Selection Section -->
+                <div x-show="!selectedTrain" x-cloak class="mb-8">
+                    <div class="bg-white bg-opacity-95 rounded-3xl shadow-2xl p-16 w-full">
+                        <h2 class="text-6xl font-bold text-gray-800 mb-16 text-center">Select Train to Track</h2>
+                        
+                        <div x-show="trains.length === 0" class="text-center py-20">
+                            <div class="w-32 h-32 mx-auto mb-8 border-8 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                            <p class="text-3xl text-gray-600 font-semibold">Loading available trains...</p>
+                        </div>
+
+                        <div class="w-full">
+                            <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-10">
+                                <template x-for="train in trains" :key="train.id">
+                                    <div @click="train.isActive ? selectTrain(train) : null" 
+                                         :class="{'opacity-50 cursor-not-allowed': !train.isActive, 'cursor-pointer hover:shadow-2xl hover:scale-105': train.isActive}"
+                                         class="train-card bg-white p-12 rounded-3xl shadow-xl border-3 border-gray-300 transition-all duration-300">
+                                        <div class="flex items-start justify-between mb-8">
+                                            <div class="flex-1">
+                                                <h3 class="text-4xl font-bold text-gray-800 mb-3" x-text="train.name"></h3>
+                                                <p class="text-xl text-gray-500 font-medium" x-text="train.id"></p>
+                                            </div>
+                                            <div :class="train.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'" 
+                                                 class="px-6 py-3 rounded-full text-lg font-bold uppercase tracking-wide">
+                                                <span x-text="train.isActive ? 'GPS ACTIVE' : 'NO GPS'"></span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="space-y-6 text-gray-700 mb-10">
+                                            <div class="flex items-center space-x-4 bg-gray-50 p-6 rounded-xl">
+                                                <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                </svg>
+                                                <span class="text-xl font-semibold" x-text="train.displayRoute"></span>
+                                            </div>
+                                            <div class="flex items-center space-x-4 bg-gray-50 p-6 rounded-xl">
+                                                <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                </svg>
+                                                <span class="text-xl" x-text="'Departure: ' + train.time"></span>
+                                            </div>
+                                        </div>
+                                        
+                                        <button :disabled="!train.isActive"
+                                                :class="train.isActive ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-400 cursor-not-allowed'"
+                                                class="w-full text-white py-6 rounded-2xl font-bold text-2xl transition-all duration-300 uppercase tracking-wide">
+                                            <span x-text="train.isActive ? 'Track This Train' : 'GPS Not Available'"></span>
+                                        </button>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tracking Dashboard (shown when train is selected) -->
+                <div x-show="selectedTrain" x-cloak>
+                    <!-- Back Button -->
+                    <div class="mb-8">
+                        <button @click="deselectTrain()" 
+                                class="bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg text-white px-8 py-4 rounded-xl font-semibold text-xl hover:bg-opacity-30 transition-all duration-300">
+                            ← Change Train
+                        </button>
+                    </div>
+
+                    <!-- Stats Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
+                        <div class="status-active p-8 rounded-2xl text-white text-center shadow-2xl">
+                            <h3 class="font-bold text-2xl mb-2">Train Status</h3>
+                            <p class="text-3xl font-bold mb-2">ACTIVE</p>
+                            <p class="text-lg opacity-90">GPS Online</p>
+                        </div>
+                        
+                        <div class="bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg p-8 rounded-2xl text-white text-center shadow-2xl">
+                            <h3 class="font-bold text-2xl mb-2">Nearest Station</h3>
+                            <p class="text-2xl font-bold mb-2" id="trainStation">Detecting...</p>
+                            <p class="text-lg opacity-90">Train Location</p>
+                        </div>
+                        
+                        <div class="bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg p-8 rounded-2xl text-white text-center shadow-2xl">
+                            <h3 class="font-bold text-2xl mb-2">ETA to Station</h3>
+                            <p class="text-2xl font-bold text-yellow-300 mb-2" id="trainEta">Calculating...</p>
+                            <p class="text-lg opacity-90">Estimated Time</p>
+                        </div>
+                        
+                        <div class="bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg p-8 rounded-2xl text-white text-center shadow-2xl">
+                            <h3 class="font-bold text-2xl mb-2">Last Update</h3>
+                            <p class="text-xl font-bold text-green-300 mb-2" x-text="lastUpdate">-</p>
+                            <p class="text-lg opacity-90">GPS Signal</p>
+                        </div>
+                    </div>
+
+                    <!-- Map Section -->
+                    <div class="bg-white bg-opacity-95 rounded-3xl shadow-2xl p-10 mb-8 w-full">
+                        <div class="flex items-center justify-between mb-8">
+                            <div>
+                                <h2 class="text-4xl font-bold text-gray-800 mb-2">Live Train Location</h2>
+                                <p class="text-xl text-gray-600" x-text="selectedTrain ? selectedTrain.displayRoute : ''"></p>
+                            </div>
+                            <div class="flex items-center space-x-6">
+                                <div class="flex items-center space-x-3 text-gray-600">
+                                    <div class="w-4 h-4 bg-red-500 rounded-full"></div>
+                                    <span class="text-lg font-medium">Train Location</span>
+                                </div>
+                                <div class="flex items-center space-x-3 text-gray-600">
+                                    <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                                    </svg>
+                                    <span class="text-lg font-medium">Station</span>
+                                </div>
+                                <button @click="centerMap()" 
+                                        class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-semibold text-lg transition-all duration-300">
+                                    Center Map
+                                </button>
+                            </div>
+                        </div>
+                        <div id="map" class="w-full"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+    <script>
+        function trackingApp() {
+            return {
+                trains: [],
+                selectedTrain: null,
+                lastUpdate: 'No signal',
+                trackingRef: null,
+                
+                async init() {
+                    await this.loadTrains();
+                },
+
+                async loadTrains() {
+                    try {
+                        console.log('Loading trains from API...');
+                        const response = await fetch('http://localhost:5000/api/tracking/trains');
+                        console.log('Response status:', response.status);
+                        
+                        if (response.ok) {
+                            let allTrains = await response.json();
+                            console.log('Raw trains received:', allTrains.length);
+                            
+                            // Remove duplicates based on id, keeping the first occurrence
+                            const uniqueTrains = [];
+                            const seenIds = new Set();
+                            
+                            allTrains.forEach((train) => {
+                                if (!seenIds.has(train.id)) {
+                                    seenIds.add(train.id);
+                                    uniqueTrains.push(train);
+                                }
+                            });
+                            
+                            // Mark only the first train as active (has GPS)
+                            this.trains = uniqueTrains.map((train, index) => ({
+                                ...train,
+                                isActive: index === 0
+                            }));
+                            
+                            console.log('Unique trains loaded:', this.trains.length);
+                            console.log('Train IDs:', this.trains.map(t => t.id));
+                        } else {
+                            console.error('Failed to load trains, status:', response.status);
+                            this.loadSampleTrains();
+                        }
+                    } catch (error) {
+                        console.error('Error loading trains:', error);
+                        this.loadSampleTrains();
+                    }
+                },
+
+                loadSampleTrains() {
+                    console.log('Loading sample trains (fallback)');
+                    this.trains = [
+                        {
+                            id: "CE001",
+                            name: "Central Express",
+                            time: "08:30",
+                            route: "Colombo-Fort-Kandy",
+                            from: "Colombo Fort",
+                            to: "Kandy",
+                            displayRoute: "Colombo Fort → Kandy",
+                            isActive: true
+                        },
+                        {
+                            id: "RT001",
+                            name: "Udarata Menike",
+                            time: "06:00",
+                            route: "Badulla-Colombo-Fort",
+                            from: "Badulla",
+                            to: "Colombo Fort",
+                            displayRoute: "Badulla → Colombo Fort",
+                            isActive: false
+                        },
+                        {
+                            id: "RT002",
+                            name: "Podi Menike",
+                            time: "08:30",
+                            route: "Badulla-Colombo-Fort",
+                            from: "Badulla",
+                            to: "Colombo Fort",
+                            displayRoute: "Badulla → Colombo Fort",
+                            isActive: false
+                        },
+                        {
+                            id: "RT003",
+                            name: "Yal Devi",
+                            time: "05:45",
+                            route: "Colombo-Fort-Jaffna",
+                            from: "Colombo Fort",
+                            to: "Jaffna",
+                            displayRoute: "Colombo Fort → Jaffna",
+                            isActive: false
+                        }
+                    ];
+                },
+
+                selectTrain(train) {
+                    this.selectedTrain = train;
+                    
+                    // Initialize map after selection
+                    this.$nextTick(() => {
+                        setTimeout(() => {
+                            this.initMap();
+                            this.startTracking();
+                        }, 100);
+                    });
+                },
+
+                deselectTrain() {
+                    // Stop tracking
+                    if (this.trackingRef) {
+                        this.trackingRef.off();
+                    }
+                    
+                    // Clear map
+                    if (window.mapInstance) {
+                        window.mapInstance.remove();
+                        window.mapInstance = null;
+                        window.trainMarker = null;
+                    }
+                    
+                    this.selectedTrain = null;
+                    this.lastUpdate = 'No signal';
+                },
+
+                startTracking() {
+                    if (this.selectedTrain && this.selectedTrain.isActive) {
+                        const trainRef = window.db.ref('/gps_locations');
+                        this.trackingRef = trainRef;
+                        
+                        trainRef.limitToLast(1).on('value', snapshot => {
+                            const data = snapshot.val();
+                            if (!data) return;
+                            
+                            const keys = Object.keys(data);
+                            const latest = data[keys[0]];
+                            
+                            if (latest.latitude && latest.longitude) {
+                                this.updateTrainOnMap(latest.latitude, latest.longitude);
+                                this.lastUpdate = new Date().toLocaleTimeString();
+                            }
+                        });
+                    }
+                },
+
+                centerMap() {
+                    if (window.mapInstance && window.trainMarker) {
+                        window.mapInstance.setView(window.trainMarker.getLatLng(), 10);
+                    } else if (window.mapInstance) {
+                        window.mapInstance.setView([7.2906, 80.6337], 8);
+                    }
+                },
+
+                initMap() {
+                    window.initTrackingMap();
+                },
+
+                updateTrainOnMap(lat, lng) {
+                    window.updateTrainOnMap(lat, lng);
+                }
+            };
+        }
+    </script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyA1JCS9g670qjNue1X025RkdJ1CrTp489U",
+            authDomain: "triantracking.firebaseapp.com",
+            databaseURL: "https://triantracking-default-rtdb.firebaseio.com",
+            projectId: "triantracking",
+            storageBucket: "triantracking.firebasestorage.app",
+            messagingSenderId: "773618146054",
+            appId: "1:773618146054:web:c3046a9b77dce4bfc31c87"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        window.db = firebase.database();
+
+        const stations = [
+            { name: "Colombo Fort", lat: 6.9271, lng: 79.8612 },
+            { name: "Kandy", lat: 7.2906, lng: 80.6337 },
+            { name: "Nuwara Eliya", lat: 6.9497, lng: 80.7891 },
+            { name: "Badulla", lat: 6.9895, lng: 81.0550 },
+            { name: "Jaffna", lat: 9.6615, lng: 80.0255 },
+            { name: "Anuradhapura", lat: 8.3124, lng: 80.4037 },
+            { name: "Polonnaruwa", lat: 7.9336, lng: 81.0000 }
+        ];
+
+        let mapInstance, trainMarker;
+        let trainLine;
+
+        let prevTrainLat = null;
+        let prevTrainLng = null;
+        let lastTrainUpdateTime = null;
+        let currentTrainSpeed = 80;
+
+        function haversine(lat1, lon1, lat2, lon2) {
+            function toRad(x) { return x * Math.PI / 180; }
+            const R = 6371;
+            const dLat = toRad(lat2 - lat1);
+            const dLon = toRad(lon2 - lon1);
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                      Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+                      Math.sin(dLon/2) * Math.sin(dLon/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return R * c;
+        }
+
+        function findNearestStation(lat, lng) {
+            let nearest = null;
+            let minDist = Infinity;
+            for (const station of stations) {
+                const dist = haversine(lat, lng, station.lat, station.lng);
+                if (dist < minDist) {
+                    minDist = dist;
+                    nearest = station;
+                }
+            }
+            return { station: nearest, distance: minDist };
+        }
+
+        function calculateETA(distanceKm, speedKmh) {
+            if (speedKmh <= 0) return "N/A";
+            const minutes = Math.round((distanceKm / speedKmh) * 60);
+            return minutes + " min";
+        }
+
+        window.initTrackingMap = function() {
+            if (document.getElementById('map')) {
+                if (mapInstance) {
+                    mapInstance.remove();
+                }
+                mapInstance = L.map('map').setView([7.2906, 80.6337], 8);
+                window.mapInstance = mapInstance;
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; OpenStreetMap contributors'
+                }).addTo(mapInstance);
+
+                stations.forEach(station => {
+                    L.marker([station.lat, station.lng], {
+                        icon: L.icon({
+                            iconUrl: 'https://cdn-icons-png.flaticon.com/512/854/854878.png',
+                            iconSize: [25, 25],
+                            iconAnchor: [12, 25]
+                        })
+                    }).addTo(mapInstance).bindPopup(station.name + ' Station');
+                });
+            }
+        };
+
+        window.updateTrainOnMap = function(lat, lng) {
+            if (!mapInstance) return;
+
+            const now = Date.now();
+            if (prevTrainLat !== null && lastTrainUpdateTime !== null) {
+                const distanceKm = haversine(prevTrainLat, prevTrainLng, lat, lng);
+                const timeElapsedHours = (now - lastTrainUpdateTime) / 1000 / 60 / 60;
+                
+                if (timeElapsedHours > 0) {
+                    currentTrainSpeed = distanceKm / timeElapsedHours;
+                }
+            }
+
+            if (!trainMarker) {
+                trainMarker = L.marker([lat, lng], {
+                    title: "Train Location",
+                    icon: L.icon({
+                        iconUrl: 'https://cdn-icons-png.flaticon.com/512/56/56838.png',
+                        iconSize: [45, 45],
+                        iconAnchor: [22, 22]
+                    })
+                }).addTo(mapInstance).bindPopup("Live Train Location");
+            } else {
+                trainMarker.setLatLng([lat, lng]);
+            }
+
+            prevTrainLat = lat;
+            prevTrainLng = lng;
+            lastTrainUpdateTime = now;
+
+            const nearest = findNearestStation(lat, lng);
+            document.getElementById('trainStation').textContent = nearest.station.name;
+
+            if (trainLine) {
+                mapInstance.removeLayer(trainLine);
+            }
+            trainLine = L.polyline([[lat, lng], [nearest.station.lat, nearest.station.lng]], {
+                color: '#ef4444', weight: 4, opacity: 0.8
+            }).addTo(mapInstance);
+
+            const eta = calculateETA(nearest.distance, currentTrainSpeed);
+            document.getElementById('trainEta').textContent = eta;
+
+            window.trainMarker = trainMarker;
+        };
+    </script>
+</body>
+</html>

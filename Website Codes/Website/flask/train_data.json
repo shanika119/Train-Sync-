@@ -1,0 +1,629 @@
+{
+    "Badulla-Kandy": [
+        {
+            "id": "CS001",
+            "name": "Central Express A",
+            "time": "06:00 AM",
+            "price_1st_class": 2000,
+            "price_2nd_class": 1200,
+            "duration": "Avg 5h"
+        },
+        {
+            "id": "CS002",
+            "name": "Highland Intercity B",
+            "time": "10:00 AM",
+            "price_1st_class": 2200,
+            "price_2nd_class": 1400,
+            "duration": "Avg 5h 15m"
+        },
+        {
+            "id": "CS003",
+            "name": "Southern Link C",
+            "time": "02:00 PM",
+            "price_1st_class": 1800,
+            "price_2nd_class": 1000,
+            "duration": "Avg 4h 45m"
+        }
+    ],
+    "Badulla-Nuwara-Eliya": [
+        {
+            "id": "CS001",
+            "name": "Central Express A",
+            "time": "06:00 AM",
+            "price_1st_class": 2000,
+            "price_2nd_class": 1200,
+            "duration": "Avg 5h"
+        },
+        {
+            "id": "CS002",
+            "name": "Highland Intercity B",
+            "time": "10:00 AM",
+            "price_1st_class": 2200,
+            "price_2nd_class": 1400,
+            "duration": "Avg 5h 15m"
+        },
+        {
+            "id": "CS003",
+            "name": "Southern Link C",
+            "time": "02:00 PM",
+            "price_1st_class": 1800,
+            "price_2nd_class": 1000,
+            "duration": "Avg 4h 45m"
+        }
+    ],
+    "Badulla-Colombo-Fort": [
+        {
+            "id": "CS002",
+            "name": "Highland Intercity B",
+            "time": "10:00 AM",
+            "price_1st_class": 2200,
+            "price_2nd_class": 1400,
+            "duration": "Avg 5h 15m"
+        },
+        {
+            "route": "Badulla-Colombo-Fort",
+            "id": "BC101",
+            "name": "Apolo Train",
+            "time": "2.00",
+            "price_1st_class": 500,
+            "price_2nd_class": 200
+        }
+    ],
+    "Kandy-Badulla": [
+        {
+            "id": "CS001",
+            "name": "Central Express A",
+            "time": "06:00 AM",
+            "price_1st_class": 2000,
+            "price_2nd_class": 1200,
+            "duration": "Avg 5h"
+        },
+        {
+            "id": "CS002",
+            "name": "Highland Intercity B",
+            "time": "10:00 AM",
+            "price_1st_class": 2200,
+            "price_2nd_class": 1400,
+            "duration": "Avg 5h 15m"
+        },
+        {
+            "id": "CS003",
+            "name": "Southern Link C",
+            "time": "02:00 PM",
+            "price_1st_class": 1800,
+            "price_2nd_class": 1000,
+            "duration": "Avg 4h 45m"
+        }
+    ],
+    "Kandy-Nuwara-Eliya": [
+        {
+            "id": "CS001",
+            "name": "Central Express A",
+            "time": "06:00 AM",
+            "price_1st_class": 2000,
+            "price_2nd_class": 1200,
+            "duration": "Avg 5h"
+        },
+        {
+            "id": "CS002",
+            "name": "Highland Intercity B",
+            "time": "10:00 AM",
+            "price_1st_class": 2200,
+            "price_2nd_class": 1400,
+            "duration": "Avg 5h 15m"
+        },
+        {
+            "id": "CS003",
+            "name": "Southern Link C",
+            "time": "02:00 PM",
+            "price_1st_class": 1800,
+            "price_2nd_class": 1000,
+            "duration": "Avg 4h 45m"
+        }
+    ],
+    "Kandy-Colombo-Fort": [
+        {
+            "id": "CS001",
+            "name": "Central Express A",
+            "time": "06:00 AM",
+            "price_1st_class": 2000,
+            "price_2nd_class": 1200,
+            "duration": "Avg 5h"
+        },
+        {
+            "id": "CS002",
+            "name": "Highland Intercity B",
+            "time": "10:00 AM",
+            "price_1st_class": 2200,
+            "price_2nd_class": 1400,
+            "duration": "Avg 5h 15m"
+        },
+        {
+            "id": "CS003",
+            "name": "Southern Link C",
+            "time": "02:00 PM",
+            "price_1st_class": 1800,
+            "price_2nd_class": 1000,
+            "duration": "Avg 4h 45m"
+        }
+    ],
+    "Nuwara-Eliya-Badulla": [
+        {
+            "id": "CS001",
+            "name": "Central Express A",
+            "time": "06:00 AM",
+            "price_1st_class": 2000,
+            "price_2nd_class": 1200,
+            "duration": "Avg 5h"
+        },
+        {
+            "id": "CS002",
+            "name": "Highland Intercity B",
+            "time": "10:00 AM",
+            "price_1st_class": 2200,
+            "price_2nd_class": 1400,
+            "duration": "Avg 5h 15m"
+        },
+        {
+            "id": "CS003",
+            "name": "Southern Link C",
+            "time": "02:00 PM",
+            "price_1st_class": 1800,
+            "price_2nd_class": 1000,
+            "duration": "Avg 4h 45m"
+        }
+    ],
+    "Nuwara-Eliya-Kandy": [
+        {
+            "id": "CS001",
+            "name": "Central Express A",
+            "time": "06:00 AM",
+            "price_1st_class": 2000,
+            "price_2nd_class": 1200,
+            "duration": "Avg 5h"
+        },
+        {
+            "id": "CS002",
+            "name": "Highland Intercity B",
+            "time": "10:00 AM",
+            "price_1st_class": 2200,
+            "price_2nd_class": 1400,
+            "duration": "Avg 5h 15m"
+        },
+        {
+            "id": "CS003",
+            "name": "Southern Link C",
+            "time": "02:00 PM",
+            "price_1st_class": 1800,
+            "price_2nd_class": 1000,
+            "duration": "Avg 4h 45m"
+        }
+    ],
+    "Nuwara-Eliya-Colombo-Fort": [
+        {
+            "id": "CS001",
+            "name": "Central Express A",
+            "time": "06:00 AM",
+            "price_1st_class": 2000,
+            "price_2nd_class": 1200,
+            "duration": "Avg 5h"
+        },
+        {
+            "id": "CS002",
+            "name": "Highland Intercity B",
+            "time": "10:00 AM",
+            "price_1st_class": 2200,
+            "price_2nd_class": 1400,
+            "duration": "Avg 5h 15m"
+        },
+        {
+            "id": "CS003",
+            "name": "Southern Link C",
+            "time": "02:00 PM",
+            "price_1st_class": 1800,
+            "price_2nd_class": 1000,
+            "duration": "Avg 4h 45m"
+        }
+    ],
+    "Colombo-Fort-Badulla": [
+        {
+            "id": "CS002",
+            "name": "Highland Intercity B",
+            "time": "10:00 AM",
+            "price_1st_class": 2200,
+            "price_2nd_class": 1400,
+            "duration": "Avg 5h 15m"
+        }
+    ],
+    "Colombo-Fort-Kandy": [
+        {
+            "id": "CS001",
+            "name": "Central Express A",
+            "time": "06:00 AM",
+            "price_1st_class": 2000,
+            "price_2nd_class": 1200,
+            "duration": "Avg 5h"
+        },
+        {
+            "id": "CS002",
+            "name": "Highland Intercity B",
+            "time": "10:00 AM",
+            "price_1st_class": 2200,
+            "price_2nd_class": 1400,
+            "duration": "Avg 5h 15m"
+        },
+        {
+            "id": "CS003",
+            "name": "Southern Link C",
+            "time": "02:00 PM",
+            "price_1st_class": 1800,
+            "price_2nd_class": 1000,
+            "duration": "Avg 4h 45m"
+        }
+    ],
+    "Colombo-Fort-Nuwara-Eliya": [
+        {
+            "id": "CS001",
+            "name": "Central Express A",
+            "time": "06:00 AM",
+            "price_1st_class": 2000,
+            "price_2nd_class": 1200,
+            "duration": "Avg 5h"
+        },
+        {
+            "id": "CS002",
+            "name": "Highland Intercity B",
+            "time": "10:00 AM",
+            "price_1st_class": 2200,
+            "price_2nd_class": 1400,
+            "duration": "Avg 5h 15m"
+        },
+        {
+            "id": "CS003",
+            "name": "Southern Link C",
+            "time": "02:00 PM",
+            "price_1st_class": 1800,
+            "price_2nd_class": 1000,
+            "duration": "Avg 4h 45m"
+        }
+    ],
+    "Jaffna-Anuradhapura": [
+        {
+            "id": "NC001",
+            "name": "Northern Heritage D",
+            "time": "07:00 AM",
+            "price_1st_class": 2500,
+            "price_2nd_class": 1600,
+            "duration": "Avg 6h"
+        },
+        {
+            "id": "NC002",
+            "name": "Cultural Express E",
+            "time": "11:00 AM",
+            "price_1st_class": 2700,
+            "price_2nd_class": 1800,
+            "duration": "Avg 6h 15m"
+        },
+        {
+            "id": "NC003",
+            "name": "Ancient Route F",
+            "time": "03:00 PM",
+            "price_1st_class": 2300,
+            "price_2nd_class": 1500,
+            "duration": "Avg 5h 45m"
+        }
+    ],
+    "Jaffna-Polonnaruwa": [
+        {
+            "id": "NC001",
+            "name": "Northern Heritage D",
+            "time": "07:00 AM",
+            "price_1st_class": 2500,
+            "price_2nd_class": 1600,
+            "duration": "Avg 6h"
+        },
+        {
+            "id": "NC002",
+            "name": "Cultural Express E",
+            "time": "11:00 AM",
+            "price_1st_class": 2700,
+            "price_2nd_class": 1800,
+            "duration": "Avg 6h 15m"
+        },
+        {
+            "id": "NC003",
+            "name": "Ancient Route F",
+            "time": "03:00 PM",
+            "price_1st_class": 2300,
+            "price_2nd_class": 1500,
+            "duration": "Avg 5h 45m"
+        }
+    ],
+    "Jaffna-Colombo-Fort": [
+        {
+            "id": "NC001",
+            "name": "Northern Heritage D",
+            "time": "07:00 AM",
+            "price_1st_class": 2500,
+            "price_2nd_class": 1600,
+            "duration": "Avg 6h"
+        },
+        {
+            "id": "NC002",
+            "name": "Cultural Express E",
+            "time": "11:00 AM",
+            "price_1st_class": 2700,
+            "price_2nd_class": 1800,
+            "duration": "Avg 6h 15m"
+        },
+        {
+            "id": "NC003",
+            "name": "Ancient Route F",
+            "time": "03:00 PM",
+            "price_1st_class": 2300,
+            "price_2nd_class": 1500,
+            "duration": "Avg 5h 45m"
+        }
+    ],
+    "Anuradhapura-Jaffna": [
+        {
+            "id": "NC001",
+            "name": "Northern Heritage D",
+            "time": "07:00 AM",
+            "price_1st_class": 2500,
+            "price_2nd_class": 1600,
+            "duration": "Avg 6h"
+        },
+        {
+            "id": "NC002",
+            "name": "Cultural Express E",
+            "time": "11:00 AM",
+            "price_1st_class": 2700,
+            "price_2nd_class": 1800,
+            "duration": "Avg 6h 15m"
+        },
+        {
+            "id": "NC003",
+            "name": "Ancient Route F",
+            "time": "03:00 PM",
+            "price_1st_class": 2300,
+            "price_2nd_class": 1500,
+            "duration": "Avg 5h 45m"
+        }
+    ],
+    "Anuradhapura-Polonnaruwa": [
+        {
+            "id": "NC001",
+            "name": "Northern Heritage D",
+            "time": "07:00 AM",
+            "price_1st_class": 2500,
+            "price_2nd_class": 1600,
+            "duration": "Avg 6h"
+        },
+        {
+            "id": "NC002",
+            "name": "Cultural Express E",
+            "time": "11:00 AM",
+            "price_1st_class": 2700,
+            "price_2nd_class": 1800,
+            "duration": "Avg 6h 15m"
+        },
+        {
+            "id": "NC003",
+            "name": "Ancient Route F",
+            "time": "03:00 PM",
+            "price_1st_class": 2300,
+            "price_2nd_class": 1500,
+            "duration": "Avg 5h 45m"
+        }
+    ],
+    "Anuradhapura-Colombo-Fort": [
+        {
+            "id": "NC001",
+            "name": "Northern Heritage D",
+            "time": "07:00 AM",
+            "price_1st_class": 2500,
+            "price_2nd_class": 1600,
+            "duration": "Avg 6h"
+        },
+        {
+            "id": "NC002",
+            "name": "Cultural Express E",
+            "time": "11:00 AM",
+            "price_1st_class": 2700,
+            "price_2nd_class": 1800,
+            "duration": "Avg 6h 15m"
+        },
+        {
+            "id": "NC003",
+            "name": "Ancient Route F",
+            "time": "03:00 PM",
+            "price_1st_class": 2300,
+            "price_2nd_class": 1500,
+            "duration": "Avg 5h 45m"
+        }
+    ],
+    "Polonnaruwa-Jaffna": [
+        {
+            "id": "NC001",
+            "name": "Northern Heritage D",
+            "time": "07:00 AM",
+            "price_1st_class": 2500,
+            "price_2nd_class": 1600,
+            "duration": "Avg 6h"
+        },
+        {
+            "id": "NC002",
+            "name": "Cultural Express E",
+            "time": "11:00 AM",
+            "price_1st_class": 2700,
+            "price_2nd_class": 1800,
+            "duration": "Avg 6h 15m"
+        },
+        {
+            "id": "NC003",
+            "name": "Ancient Route F",
+            "time": "03:00 PM",
+            "price_1st_class": 2300,
+            "price_2nd_class": 1500,
+            "duration": "Avg 5h 45m"
+        }
+    ],
+    "Polonnaruwa-Anuradhapura": [
+        {
+            "id": "NC001",
+            "name": "Northern Heritage D",
+            "time": "07:00 AM",
+            "price_1st_class": 2500,
+            "price_2nd_class": 1600,
+            "duration": "Avg 6h"
+        },
+        {
+            "id": "NC002",
+            "name": "Cultural Express E",
+            "time": "11:00 AM",
+            "price_1st_class": 2700,
+            "price_2nd_class": 1800,
+            "duration": "Avg 6h 15m"
+        },
+        {
+            "id": "NC003",
+            "name": "Ancient Route F",
+            "time": "03:00 PM",
+            "price_1st_class": 2300,
+            "price_2nd_class": 1500,
+            "duration": "Avg 5h 45m"
+        }
+    ],
+    "Polonnaruwa-Colombo-Fort": [
+        {
+            "id": "NC001",
+            "name": "Northern Heritage D",
+            "time": "07:00 AM",
+            "price_1st_class": 2500,
+            "price_2nd_class": 1600,
+            "duration": "Avg 6h"
+        },
+        {
+            "id": "NC002",
+            "name": "Cultural Express E",
+            "time": "11:00 AM",
+            "price_1st_class": 2700,
+            "price_2nd_class": 1800,
+            "duration": "Avg 6h 15m"
+        },
+        {
+            "id": "NC003",
+            "name": "Ancient Route F",
+            "time": "03:00 PM",
+            "price_1st_class": 2300,
+            "price_2nd_class": 1500,
+            "duration": "Avg 5h 45m"
+        }
+    ],
+    "Colombo-Fort-Jaffna": [
+        {
+            "id": "NC001",
+            "name": "Northern Heritage D",
+            "time": "07:00 AM",
+            "price_1st_class": 2500,
+            "price_2nd_class": 1600,
+            "duration": "Avg 6h"
+        },
+        {
+            "id": "NC002",
+            "name": "Cultural Express E",
+            "time": "11:00 AM",
+            "price_1st_class": 2700,
+            "price_2nd_class": 1800,
+            "duration": "Avg 6h 15m"
+        },
+        {
+            "id": "NC003",
+            "name": "Ancient Route F",
+            "time": "03:00 PM",
+            "price_1st_class": 2300,
+            "price_2nd_class": 1500,
+            "duration": "Avg 5h 45m"
+        }
+    ],
+    "Colombo-Fort-Anuradhapura": [
+        {
+            "id": "NC001",
+            "name": "Northern Heritage D",
+            "time": "07:00 AM",
+            "price_1st_class": 2500,
+            "price_2nd_class": 1600,
+            "duration": "Avg 6h"
+        },
+        {
+            "id": "NC002",
+            "name": "Cultural Express E",
+            "time": "11:00 AM",
+            "price_1st_class": 2700,
+            "price_2nd_class": 1800,
+            "duration": "Avg 6h 15m"
+        },
+        {
+            "id": "NC003",
+            "name": "Ancient Route F",
+            "time": "03:00 PM",
+            "price_1st_class": 2300,
+            "price_2nd_class": 1500,
+            "duration": "Avg 5h 45m"
+        }
+    ],
+    "Colombo-Fort-Polonnaruwa": [
+        {
+            "id": "NC001",
+            "name": "Northern Heritage D",
+            "time": "07:00 AM",
+            "price_1st_class": 2500,
+            "price_2nd_class": 1600,
+            "duration": "Avg 6h"
+        },
+        {
+            "id": "NC002",
+            "name": "Cultural Express E",
+            "time": "11:00 AM",
+            "price_1st_class": 2700,
+            "price_2nd_class": 1800,
+            "duration": "Avg 6h 15m"
+        },
+        {
+            "id": "NC003",
+            "name": "Ancient Route F",
+            "time": "03:00 PM",
+            "price_1st_class": 2300,
+            "price_2nd_class": 1500,
+            "duration": "Avg 5h 45m"
+        }
+    ],
+    "Anuradhapura-Badulla": [],
+    "Anuradhapura-Kandy": [],
+    "Anuradhapura-Nuwara-Eliya": [
+        {
+            "route": "Anuradhapura-Nuwara-Eliya",
+            "id": "MB112",
+            "name": "Rajarata Manike",
+            "time": "06.00 A.M",
+            "price_1st_class": 1500,
+            "price_2nd_class": 1000
+        }
+    ],
+    "Badulla-Anuradhapura": [],
+    "Badulla-Jaffna": [],
+    "Badulla-Polonnaruwa": [],
+    "Jaffna-Badulla": [],
+    "Jaffna-Kandy": [],
+    "Jaffna-Nuwara-Eliya": [],
+    "Kandy-Anuradhapura": [],
+    "Kandy-Jaffna": [],
+    "Kandy-Polonnaruwa": [],
+    "Nuwara-Eliya-Anuradhapura": [],
+    "Nuwara-Eliya-Jaffna": [],
+    "Nuwara-Eliya-Polonnaruwa": [],
+    "Polonnaruwa-Badulla": [],
+    "Polonnaruwa-Kandy": [],
+    "Polonnaruwa-Nuwara-Eliya": []
+}
